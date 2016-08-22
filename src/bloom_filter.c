@@ -29,6 +29,23 @@
 #define ALLOC_FILTER(bf) (bf = malloc(sizeof(struct bloom_filter)))
 #define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint16_t)))
 
+#define TEST_ALLOC_FILTER(bf)                                   \
+        do {                                                    \
+                if(bf == NULL) {                                \
+                        perror("Alloc failed, exiting...");     \
+                        exit(ALLOC_ERR);                        \
+                }                                               \
+        } while(0)                                              
+#define TEST_ALLOC_BUF(bf_buf)                                  \
+        do {                                                    \
+                if(bf_buf == NULL) {                            \
+                        free(bf);                               \
+                        perror("Alloc failed, exiting...");     \
+                        exit(ALLOC_ERR);                        \
+                }                                               \
+        } while(0)                                              
+
+
 #define H_a(pointer, bytes, out) (MurmurHash3_x86_32((void *)pointer, bytes, 0, out))
 #define H_b(pointer, bytes) (FNV1A_Hash_WHIZ((void *)pointer, bytes))
 #define G(in, scalar, pointer, bytes, size) (abs(in[0] + scalar * H_b(pointer, bytes)) % size)
@@ -38,21 +55,14 @@ struct bloom_filter *bloom_init()
         struct bloom_filter *bf;
 
         ALLOC_FILTER(bf);
-        if(bf == NULL) {
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_FILTER(bf);
 
         bf->nelems = 100;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nhashes = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
-        if(bf->buf == NULL) {
-                free(bf);
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_BUF(bf->buf);
 
         return bf;
 }
@@ -62,21 +72,14 @@ struct bloom_filter *bloom_init_nelems(uint32_t nelems)
         struct bloom_filter *bf;
 
         ALLOC_FILTER(bf);
-        if(bf == NULL) {
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_FILTER(bf);
 
         bf->nelems = nelems;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nhashes = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
-        if(bf->buf == NULL) {
-                free(bf);
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_BUF(bf->buf);
 
         return bf;
 }
@@ -86,21 +89,14 @@ struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes)
         struct bloom_filter *bf;
 
         ALLOC_FILTER(bf);
-        if(bf == NULL) {
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_FILTER(bf);
 
         bf->nelems = nelems;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nhashes = nhashes; 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
-        if(bf->buf == NULL) {
-                free(bf);
-                perror("Alloc failed, exiting...");
-                exit(ALLOC_ERR);
-        }
+        TEST_ALLOC_BUF(bf->buf);
 
         return bf;
 }
