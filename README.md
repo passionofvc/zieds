@@ -1,7 +1,6 @@
-#zieds [![Build 
-Status](https://travis-ci.org/grifhughes/zieds.svg?branch=master)](https://travis-ci.org/grifhughes/zieds)
+#zieds https://travis-ci.org/grifhughes/zieds.svg?branch=master
 
-Zieds (Latvian for flower) is a C library that implements a bloom filter.
+zieds (Latvian for flower) is a C library that implements a bloom filter.
 Currently supports strings/ints.
 
 ##About
