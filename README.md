@@ -8,10 +8,10 @@ Currently supports strings/ints.
 
 A bloom filter is a compact way to test whether an element is a member of a
 set. The filter uses m bits (16 in this implementation) per element to
-represent n elements by hashing each with k (optimal value (m / n) * ln(2))
+represent n elements by hashing n<sub>i</sub> with k (optimal value (m / n) * ln(2))
 different hash functions and setting the bit at every respective hash value.
-To determine if an element is present, the filter hashes the element with each k
-hash function and tests the bits at each hash value. If any of these bits are
+To determine if an element is present, the filter hashes the desired element with the 
+k hash functions and tests the bits at each hash value. If any of these bits are
 clear, the filter knows the element is not a member of the set.
 
 ##Hashing
