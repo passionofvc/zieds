@@ -11,8 +11,8 @@ set. The filter uses m bits (16 in this implementation) per element to
 represent n elements by hashing n<sub>i</sub> with k (optimal value (m / n) * ln(2))
 different hash functions and setting the bit at every respective hash value.
 To determine if an element is present, the filter hashes the desired element with the 
-k hash functions and tests the bit at each hash value. If any of these are clear, the 
-filter knows the element is not a member of the set. Insertion and querying a bloom  
+k hash functions and tests the bit at each hash value. If any of these are clear, the  
+filter knows the element is not a member of the set. Insertion and querying a bloom 
 filter are both O(k).
 
 ##Hashing
