@@ -16,7 +16,8 @@
 *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#ifndef BLOOM_FILTER_H
+#define BLOOM_FILTER_H 
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -52,3 +53,5 @@ void bloom_insert_int(struct bloom_filter *bf, const int32_t data);
 void bloom_insert_string(struct bloom_filter *bf, const char *data);
 bool bloom_query_int(struct bloom_filter *bf, const int32_t data);
 bool bloom_query_string(struct bloom_filter *bf, const char *data);
+
+#endif

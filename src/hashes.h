@@ -1,7 +1,8 @@
 //Murmur hash implementation: modified from - https://github.com/PeterScott
 //FNV1A hash implementation: modified from - http://encode.ru/threads/612-Fastest-decompressor!?p=22184&viewfull=1#post22184
 
-#pragma once
+#ifndef HASHES_H
+#define HASHES_H
 
 #ifdef __GNUC__
 #define FORCE_INLINE __attribute__((always_inline)) inline
@@ -84,3 +85,5 @@ uint32_t FNV1A_Hash_WHIZ(void *str, size_t wrdlen)
                                  
         return hash32 ^ (hash32 >> 16);
 }
+
+#endif
