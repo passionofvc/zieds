@@ -46,9 +46,15 @@ BLOOM_FREE(bf);
 
 ##Installation
 ```
-Small test program:
+Install to build directory:
 	git clone https://github.com/grifhughes/zieds && \
-	cmake . && make
+	cd zieds/ && \
+	mkdir build && cd build/ \
+	cmake .. && make
+System wide:
+	git clone https://github.com/grifhughes/zieds && \
+	cd zieds/ && \
+	cmake . && sudo make install
 ```
 
 ##TODO
