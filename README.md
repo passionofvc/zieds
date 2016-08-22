@@ -47,7 +47,7 @@ BLOOM_FREE(bf);
 ##Installation
 ```
 git clone https://github.com/grifhughes/zieds
-Include zieds/include/zieds/bloom_filter.h with your projects to use
+include zieds/include/bloom_filter.h with your projects to use
 ```
 
 ##TODO
