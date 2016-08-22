@@ -29,6 +29,10 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 
 ##Installation
 ```
+Local build directory:
+	git clone https://github.com/grifhughes/zieds && \
+	mkdir build && cd build && \
+	cmake .. && make 
 System wide:
 	git clone https://github.com/grifhughes/zieds && \
 	cd zieds/ && cmake . && sudo make install
