@@ -24,10 +24,10 @@
 #include <stdlib.h>
 
 //Helper free macro
-#define BLOOM_FREE(bf) \
-        do { \
-                free(bf->buf); \
-                free(bf); \
+#define BLOOM_FREE(bf)          \
+        do {                    \
+                free(bf->buf);  \
+                free(bf);       \
         } while(0)
 
 struct bloom_filter {
