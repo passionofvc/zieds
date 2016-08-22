@@ -31,7 +31,7 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 ```
 Local build directory:
 	git clone https://github.com/grifhughes/zieds && \
-	mkdir build && cd build && \
+	cd zieds && mkdir build && cd build && \
 	cmake .. && make 
 System wide:
 	git clone https://github.com/grifhughes/zieds && \
