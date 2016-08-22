@@ -35,7 +35,7 @@ struct bloom_filter *bloom_init()
         }
 
         bf->nelems = 100;
-        bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
+        bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nh = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
@@ -59,7 +59,7 @@ struct bloom_filter *bloom_init_cap(uint32_t cap)
         }
 
         bf->nelems = cap;
-        bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
+        bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nh = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
@@ -83,7 +83,7 @@ struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes)
         }
 
         bf->nelems = cap;
-        bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
+        bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
         bf->nh = nhashes; 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
