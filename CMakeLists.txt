@@ -1,6 +1,11 @@
+cmake_minimum_required(VERSION 2.8.9)
 project(zieds)
-add_executable(zieds 
-	include/bloom_filter.h 
-	src/hashes.h
-	src/bloom_filter.c
-	src/test.c)
+set(CMAKE_BUILD_TYPE Release)
+
+include_directories(include)
+
+file(GLOB SOURCES "src/*.c")
+
+add_library(libzieds SHARED ${SOURCES})
+
+install(TARGETS zieds DESTINATION /usr/lib)
