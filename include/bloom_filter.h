@@ -37,16 +37,16 @@
         } while(0)
 
 struct bloom_filter {
+        uint8_t nhashes; //optimal number of hashes, unless explicit (m / n * ln(2))
         uint16_t *buf; //16 bits per element 
         uint32_t nelems; //number of elements 
         uint32_t mbits; //number of bits (16 * nelems)
-        uint32_t nh; //optimal number of hashes, unless explicit ((mbits/nelems) * ln(2))
 };
 
 //Inits
 struct bloom_filter *bloom_init();
-struct bloom_filter *bloom_init_cap(uint32_t cap);
-struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes);
+struct bloom_filter *bloom_init_nelems(uint32_t nelems);
+struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes);
 
 //Functions
 void bloom_insert_int(struct bloom_filter *bf, const int32_t data);

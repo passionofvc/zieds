@@ -37,7 +37,7 @@ struct bloom_filter *bloom_init()
 
         bf->nelems = 100;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
-        bf->nh = (bf->mbits / bf->nelems) * log(2); 
+        bf->nhashes = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
@@ -49,7 +49,7 @@ struct bloom_filter *bloom_init()
         return bf;
 }
 
-struct bloom_filter *bloom_init_cap(uint32_t cap)
+struct bloom_filter *bloom_init_cap(uint32_t nelems)
 {
         struct bloom_filter *bf;
 
@@ -59,9 +59,9 @@ struct bloom_filter *bloom_init_cap(uint32_t cap)
                 exit(ALLOC_ERR);
         }
 
-        bf->nelems = cap;
+        bf->nelems = nelems;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
-        bf->nh = (bf->mbits / bf->nelems) * log(2); 
+        bf->nhashes = (bf->mbits / bf->nelems) * log(2); 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
@@ -73,7 +73,7 @@ struct bloom_filter *bloom_init_cap(uint32_t cap)
         return bf;
 }
 
-struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes) 
+struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes) 
 {
         struct bloom_filter *bf;
 
@@ -83,9 +83,9 @@ struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes)
                 exit(ALLOC_ERR);
         }
 
-        bf->nelems = cap;
+        bf->nelems = nelems;
         bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);
-        bf->nh = nhashes; 
+        bf->nhashes = nhashes; 
 
         ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
@@ -103,7 +103,7 @@ void bloom_insert_int(struct bloom_filter *bf, const int32_t data)
         uint32_t hash[4];
         
         MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
-        for(uint32_t i = 0; i < bf->nh; ++i) 
+        for(uint8_t i = 0; i < bf->nhashes; ++i) 
                 SET_BIT(bf, G_i(hash, i, p, bf->mbits));
 }
 
@@ -113,7 +113,7 @@ void bloom_insert_string(struct bloom_filter *bf, const char *data)
         uint64_t len = strlen(data);
         
         MurmurHash3_x86_32((void *)data, len, 0, hash);
-        for(uint32_t i = 0; i < bf->nh; ++i)
+        for(uint8_t i = 0; i < bf->nhashes; ++i)
                 SET_BIT(bf, G_s(hash, i, data, len, bf->mbits));
 }
 
@@ -123,7 +123,7 @@ bool bloom_query_int(struct bloom_filter *bf, const int32_t data)
         uint32_t hash[4];
 
         MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
-        for(uint32_t i = 0; i < bf->nh; ++i) 
+        for(uint8_t i = 0; i < bf->nhashes; ++i) 
                 if(!TEST_BIT(bf, G_i(hash, i, p, bf->mbits)))
                         return false;
         return true;
@@ -135,7 +135,7 @@ bool bloom_query_string(struct bloom_filter *bf, const char *data)
         uint64_t len = strlen(data);
 
         MurmurHash3_x86_32((void *)data, len, 0, hash);
-        for(uint32_t i = 0; i < bf->nh; ++i) 
+        for(uint8_t i = 0; i < bf->nhashes; ++i) 
                 if(!TEST_BIT(bf, G_s(hash, i, data, len, bf->mbits)))
                         return false;
         return true;
