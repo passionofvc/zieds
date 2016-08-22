@@ -6,6 +6,6 @@ include_directories(include)
 
 file(GLOB SOURCES "src/*.c")
 
-add_library(libzieds SHARED ${SOURCES})
+add_library(zieds SHARED ${SOURCES})
 
 install(TARGETS zieds DESTINATION /usr/lib)
