@@ -59,7 +59,7 @@ struct bloom_filter *bloom_init()
         return bf;
 }
 
-struct bloom_filter *bloom_init_cap(uint32_t nelems)
+struct bloom_filter *bloom_init_nelems(uint32_t nelems)
 {
         struct bloom_filter *bf;
 
