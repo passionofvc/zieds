@@ -120,7 +120,7 @@ void bloom_insert_string(struct bloom_filter *bf, const char *data)
         uint32_t hash[4];
         uint64_t len = strlen(data);
         
-        H_a(&data, len, hash);
+        H_a(data, len, hash);
         uint8_t i;
         for(i = 0; i < bf->nhashes; ++i)
                 SET_BIT(bf, G(hash, i, data, len, bf->mbits));
@@ -143,7 +143,7 @@ bool bloom_query_string(struct bloom_filter *bf, const char *data)
         uint32_t hash[4];
         uint64_t len = strlen(data);
 
-        H_a(&data, len, hash);
+        H_a(data, len, hash);
         uint8_t i;
         for(i = 0; i < bf->nhashes; ++i) 
                 if(!TEST_BIT(bf, G(hash, i, data, len, bf->mbits)))
