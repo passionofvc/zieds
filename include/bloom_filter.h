@@ -20,21 +20,16 @@
 #define BLOOM_FILTER_H 
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-//Helper macros
-#define SET_BIT(bf, k) ((bf->buf[k >> 4]) |= (1 << (k % 16)))
-#define TEST_BIT(bf, k) ((bf->buf[k >> 4]) & (1 << (k % 16)))
-
-#define ALLOC_ERR 43 
-#define ALLOC_FILTER(bf) (bf = malloc(sizeof(struct bloom_filter)))
-#define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint16_t)))
+//Helper free macro
 #define BLOOM_FREE(bf) \
         do { \
                 free(bf->buf); \
                 free(bf); \
         } while(0)
+
 
 struct bloom_filter {
         uint8_t nhashes; //optimal number of hashes, unless explicit (m / n * ln(2))
