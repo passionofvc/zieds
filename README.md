@@ -5,7 +5,7 @@ Zieds (Latvian for flower) is a C implementation of a bloom filter.
 ##About
 
 A bloom filter is a compact way to test whether an element is a member of a 
-set. The filter uses m bits (32 in this implementation) per element to 
+set. The filter uses m bits (16 in this implementation) per element to 
 represent n elements by hashing each with k (optimal value (m / n) * ln(2)) 
 different hash functions and setting the bit at every respective hash value. 
 To determine if an element is present, the filter hashes the element and 
