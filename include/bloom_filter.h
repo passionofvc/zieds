@@ -30,7 +30,6 @@
                 free(bf); \
         } while(0)
 
-
 struct bloom_filter {
         uint8_t nhashes; //optimal number of hashes, unless explicit (m / n * ln(2))
         uint16_t *buf; //16 bits per element 
