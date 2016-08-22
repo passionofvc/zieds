@@ -1,5 +1,5 @@
-//Murmur hash implementation: modified from - https://github.com/PeterScott
-//FNV1A hash implementation: modified from - http://encode.ru/threads/612-Fastest-decompressor!?p=22184&viewfull=1#post22184
+/* Murmur hash implementation: modified from - https://github.com/PeterScott */
+/* FNV1A hash implementation: modified from - http://encode.ru/threads/612-Fastest-decompressor!?p=22184&viewfull=1#post22184 */
 
 #ifndef HASHES_H
 #define HASHES_H
@@ -33,13 +33,12 @@ static FORCE_INLINE uint32_t fmix32(uint32_t h)
 
 void MurmurHash3_x86_32(const void *key, int len, uint32_t seed, void *out)
 {
-        const uint8_t *data = (const uint8_t *)key;
-        const int nblocks = len / 4;
         int i;
         uint32_t h1 = seed;
         uint32_t c1 = 0xcc9e2d51;
         uint32_t c2 = 0x1b873593;
-
+        const int nblocks = len / 4;
+        const uint8_t *data = (const uint8_t *)key;
         const uint32_t *blocks = (const uint32_t *)(data + nblocks*4);
 
         for(i = -nblocks; i; i++) {
@@ -49,11 +48,11 @@ void MurmurHash3_x86_32(const void *key, int len, uint32_t seed, void *out)
                 k1 *= c2;
                 h1 ^= k1;
                 h1 = ROTL32(h1,13); 
-                h1 = h1*5+0xe6546b64;
+                h1 = h1 * 5 + 0xe6546b64;
         }
 
-        const uint8_t *tail = (const uint8_t *)(data + nblocks*4);
         uint32_t k1 = 0;
+        const uint8_t *tail = (const uint8_t *)(data + nblocks*4);
 
         switch(len & 3) {
                 case 3: k1 ^= tail[2] << 16;
@@ -69,10 +68,9 @@ void MurmurHash3_x86_32(const void *key, int len, uint32_t seed, void *out)
 
 uint32_t FNV1A_Hash_WHIZ(void *str, size_t wrdlen)
 {
-        const uint32_t prime = 1607;
-             
-        uint32_t hash32 = 2166136261;
         char *p = (char *)str;
+        uint32_t hash32 = 2166136261;
+        const uint32_t prime = 1607;
                      
         for(; wrdlen >= sizeof(uint32_t); wrdlen -= sizeof(uint32_t), p += sizeof(uint32_t)) {
                 hash32 = (hash32 ^ *(uint32_t *)p) * prime;

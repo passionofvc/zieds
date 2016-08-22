@@ -23,7 +23,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-//Helper free macro
 #define BLOOM_FREE(bf)          \
         do {                    \
                 free(bf->buf);  \
@@ -31,18 +30,15 @@
         } while(0)
 
 struct bloom_filter {
-        uint8_t nhashes; //optimal number of hashes, unless explicit (m / n * ln(2))
-        uint16_t *buf; //16 bits per element 
-        uint32_t nelems; //number of elements 
-        uint32_t mbits; //number of bits (16 * nelems)
+        uint8_t nhashes; /* optimal number of hashes unless explicit (m / n * ln(2)) */
+        uint16_t *buf; /* bits per element */ 
+        uint32_t nelems; /* number of elements */
+        uint32_t mbits; /* number of bits (16 * nelems) */
 };
 
-//Inits
 struct bloom_filter *bloom_init();
 struct bloom_filter *bloom_init_nelems(uint32_t nelems);
 struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes);
-
-//Functions
 void bloom_insert_int(struct bloom_filter *bf, const int32_t data);
 void bloom_insert_string(struct bloom_filter *bf, const char *data);
 bool bloom_query_int(struct bloom_filter *bf, const int32_t data);

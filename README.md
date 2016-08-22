@@ -12,7 +12,8 @@ represent n elements by hashing n<sub>i</sub> with k (optimal value (m / n) * ln
 different hash functions and setting the bit at every respective hash value.
 To determine if an element is present, the filter hashes the desired element with the 
 k hash functions and tests the bits at each hash value. If any of these bits are
-clear, the filter knows the element is not a member of the set.
+clear, the filter knows the element is not a member of the set. Insertion and 
+querying a bloom filter are both O(k).
 
 ##Hashing
 
@@ -29,7 +30,7 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 
 ##Installation
 ```
-Local build directory:
+Build directory:
 	git clone https://github.com/grifhughes/zieds && \
 	cd zieds && mkdir build && cd build && \
 	cmake .. && make 
@@ -42,23 +43,23 @@ System wide:
 ```
 #include <bloom_filter.h>
 
-//initialize
+/* initialize */
 struct bloom_filter *bf = bloom_init();
 
-//add some numbers
+/* add some numbers */
 bloom_insert_int(bf, 4);
 bloom_insert_int(bf, 20);
 bloom_insert_int(bf, 500);
 
-//prints 1 0 1
+/* prints 1 0 1 */
 printf("%d %d %d\n", bloom_query_int(bf, 4), 
         bloom_query_int(bf, 100),
         bloom_query_int(bf, 500)); 
 
-//free
+/* free */
 BLOOM_FREE(bf);
 ```
 
 ##TODO
 
-Add type flag to support a generic insertion/query
+Add more functionality
