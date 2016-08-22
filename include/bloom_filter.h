@@ -28,8 +28,8 @@
 #define TEST_BIT(bf, k) ((bf->buf[k >> 5]) & (1 << (k % 32)))
 
 #define ALLOC_ERR 43 
-#define ALLOC_FILTER (malloc(sizeof(struct bloom_filter)))
-#define ALLOC_FILTER_BUF(nelems) (calloc(nelems, sizeof(uint32_t)))
+#define ALLOC_FILTER(bf) (bf = malloc(sizeof(struct bloom_filter)))
+#define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint32_t)))
 #define BLOOM_FREE(bf) \
         do { \
                 free(bf->buf); \

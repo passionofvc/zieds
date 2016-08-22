@@ -26,7 +26,9 @@
 
 struct bloom_filter *bloom_init() 
 {
-        struct bloom_filter *bf = ALLOC_FILTER;
+        struct bloom_filter *bf;
+
+        ALLOC_FILTER(bf);
         if(bf == NULL) {
                 perror("Alloc failed, exiting...");
                 exit(ALLOC_ERR);
@@ -36,7 +38,7 @@ struct bloom_filter *bloom_init()
         bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
         bf->nh = (bf->mbits / bf->nelems) * log(2); 
 
-        bf->buf = ALLOC_FILTER_BUF(bf->nelems);
+        ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
                 free(bf);
                 perror("Alloc failed, exiting...");
@@ -48,7 +50,9 @@ struct bloom_filter *bloom_init()
 
 struct bloom_filter *bloom_init_cap(uint32_t cap)
 {
-        struct bloom_filter *bf = ALLOC_FILTER;
+        struct bloom_filter *bf;
+
+        ALLOC_FILTER(bf);
         if(bf == NULL) {
                 perror("Alloc failed, exiting...");
                 exit(ALLOC_ERR);
@@ -58,7 +62,7 @@ struct bloom_filter *bloom_init_cap(uint32_t cap)
         bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
         bf->nh = (bf->mbits / bf->nelems) * log(2); 
 
-        bf->buf = ALLOC_FILTER_BUF(bf->nelems);
+        ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
                 free(bf);
                 perror("Alloc failed, exiting...");
@@ -70,7 +74,9 @@ struct bloom_filter *bloom_init_cap(uint32_t cap)
 
 struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes) 
 {
-        struct bloom_filter *bf = ALLOC_FILTER;
+        struct bloom_filter *bf;
+
+        ALLOC_FILTER(bf);
         if(bf == NULL) {
                 perror("Alloc failed, exiting...");
                 exit(ALLOC_ERR);
@@ -80,7 +86,7 @@ struct bloom_filter *bloom_init_nhashes(uint32_t cap, uint32_t nhashes)
         bf->mbits = bf->nelems * (sizeof(uint32_t) << 3);
         bf->nh = nhashes; 
 
-        bf->buf = ALLOC_FILTER_BUF(bf->nelems);
+        ALLOC_FILTER_BUF(bf->buf, bf->nelems);
         if(bf->buf == NULL) {
                 free(bf);
                 perror("Alloc failed, exiting...");
