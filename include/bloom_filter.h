@@ -24,12 +24,12 @@
 #include <stdbool.h>
 
 //Helper macros
-#define SET_BIT(bf, k) ((bf->buf[k >> 5]) |= (1 << (k % 32)))
-#define TEST_BIT(bf, k) ((bf->buf[k >> 5]) & (1 << (k % 32)))
+#define SET_BIT(bf, k) ((bf->buf[k >> 4]) |= (1 << (k % 16)))
+#define TEST_BIT(bf, k) ((bf->buf[k >> 4]) & (1 << (k % 16)))
 
 #define ALLOC_ERR 43 
 #define ALLOC_FILTER(bf) (bf = malloc(sizeof(struct bloom_filter)))
-#define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint32_t)))
+#define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint16_t)))
 #define BLOOM_FREE(bf) \
         do { \
                 free(bf->buf); \
@@ -37,9 +37,9 @@
         } while(0)
 
 struct bloom_filter {
-        uint32_t *buf; //32 bits per element 
+        uint16_t *buf; //16 bits per element 
         uint32_t nelems; //number of elements 
-        uint32_t mbits; //number of bits (32 * nelems)
+        uint32_t mbits; //number of bits (16 * nelems)
         uint32_t nh; //optimal number of hashes, unless explicit ((mbits/nelems) * ln(2))
 };
 
