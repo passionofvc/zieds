@@ -22,7 +22,8 @@
 #include "../include/bloom_filter.h"
 #include "hashes.h"
 
-#define G(arr, scalar, pointer, size) ((abs(arr[0] + scalar * FNV1A_Hash_WHIZ((void *)pointer, sizeof(int32_t)))) % size)
+#define G_i(arr, scalar, pointer, size) ((abs(arr[0] + scalar * FNV1A_Hash_WHIZ((void *)pointer, sizeof(int32_t)))) % size)
+#define G_s(arr, scalar, pointer, bytes, size) ((abs(arr[0] + scalar * FNV1A_Hash_WHIZ((void *)pointer, bytes))) % size)
 
 struct bloom_filter *bloom_init() 
 {
@@ -103,16 +104,17 @@ void bloom_insert_int(struct bloom_filter *bf, const int32_t data)
         
         MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
         for(uint32_t i = 0; i < bf->nh; ++i) 
-                SET_BIT(bf, G(hash, i, p, bf->mbits));
+                SET_BIT(bf, G_i(hash, i, p, bf->mbits));
 }
 
 void bloom_insert_string(struct bloom_filter *bf, const char *data)
 {
         uint32_t hash[4];
+        uint64_t len = strlen(data);
         
-        MurmurHash3_x86_32((void *)data, strlen(data), 0, hash);
+        MurmurHash3_x86_32((void *)data, len, 0, hash);
         for(uint32_t i = 0; i < bf->nh; ++i)
-                SET_BIT(bf, G(hash, i, data, bf->mbits));
+                SET_BIT(bf, G_s(hash, i, data, len, bf->mbits));
 }
 
 bool bloom_query_int(struct bloom_filter *bf, const int32_t data)
@@ -122,7 +124,7 @@ bool bloom_query_int(struct bloom_filter *bf, const int32_t data)
 
         MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
         for(uint32_t i = 0; i < bf->nh; ++i) 
-                if(!TEST_BIT(bf, G(hash, i, p, bf->mbits)))
+                if(!TEST_BIT(bf, G_i(hash, i, p, bf->mbits)))
                         return false;
         return true;
 }
@@ -130,10 +132,11 @@ bool bloom_query_int(struct bloom_filter *bf, const int32_t data)
 bool bloom_query_string(struct bloom_filter *bf, const char *data)
 {
         uint32_t hash[4];
+        uint64_t len = strlen(data);
 
-        MurmurHash3_x86_32((void *)data, strlen(data), 0, hash);
+        MurmurHash3_x86_32((void *)data, len, 0, hash);
         for(uint32_t i = 0; i < bf->nh; ++i) 
-                if(!TEST_BIT(bf, G(hash, i, data, bf->mbits)))
+                if(!TEST_BIT(bf, G_s(hash, i, data, len, bf->mbits)))
                         return false;
         return true;
 }
