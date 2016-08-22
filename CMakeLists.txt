@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+acmake_minimum_required(VERSION 2.8.9)
 project(zieds)
 set(CMAKE_BUILD_TYPE Release)
 
