@@ -99,12 +99,11 @@ struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes)
 
 void bloom_insert_int(struct bloom_filter *bf, const int32_t data)
 {
-        const int32_t *p = &data;
         uint32_t hash[4];
         
-        MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
+        MurmurHash3_x86_32((void *)&data, sizeof(int32_t), 0, hash);
         for(uint8_t i = 0; i < bf->nhashes; ++i) 
-                SET_BIT(bf, G_i(hash, i, p, bf->mbits));
+                SET_BIT(bf, G_i(hash, i, &data, bf->mbits));
 }
 
 void bloom_insert_string(struct bloom_filter *bf, const char *data)
@@ -119,12 +118,11 @@ void bloom_insert_string(struct bloom_filter *bf, const char *data)
 
 bool bloom_query_int(struct bloom_filter *bf, const int32_t data)
 {
-        const int32_t *p = &data;
         uint32_t hash[4];
 
-        MurmurHash3_x86_32((void *)p, sizeof(int32_t), 0, hash);
+        MurmurHash3_x86_32((void *)&data, sizeof(int32_t), 0, hash);
         for(uint8_t i = 0; i < bf->nhashes; ++i) 
-                if(!TEST_BIT(bf, G_i(hash, i, p, bf->mbits)))
+                if(!TEST_BIT(bf, G_i(hash, i, &data, bf->mbits)))
                         return false;
         return true;
 }
