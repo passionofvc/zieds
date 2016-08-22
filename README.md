@@ -21,10 +21,11 @@ generates them via:
 
 g<sub>i</sub>(x) = h<sub>a</sub>(x) + i * h<sub>b</sub>(x) % m, where i ranges from [0:k)
 
-h<sub>a</sub>(x) - Murmur3 32-bit (implementation https://github.com/PeterScott)
+h<sub>a</sub>(x) - Murmur3 32-bit
 
-h<sub>b</sub>(x) - FNV1A 32-bit (implementation 
-http://encode.ru/threads/612-Fastest-decompressor!?p=22184&viewfull=1#post22184)
+h<sub>b</sub>(x) - FNV1A 32-bit
+
+See src/hashes.h for implementations
 
 https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 
