@@ -28,7 +28,6 @@
 #define ALLOC_ERR 43 
 #define ALLOC_FILTER(bf) (bf = malloc(sizeof(struct bloom_filter)))
 #define ALLOC_FILTER_BUF(bf_buf, nelems) (bf_buf = calloc(nelems, sizeof(uint16_t)))
-
 #define TEST_ALLOC_FILTER(bf)                                   \
         do {                                                    \
                 if(bf == NULL) {                                \
@@ -44,7 +43,6 @@
                         exit(ALLOC_ERR);                        \
                 }                                               \
         } while(0)                                              
-
 
 #define H_a(pointer, bytes, out) (MurmurHash3_x86_32((void *)pointer, bytes, 0, out))
 #define H_b(pointer, bytes) (FNV1A_Hash_WHIZ((void *)pointer, bytes))
