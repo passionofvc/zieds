@@ -7,7 +7,8 @@ filter in C. Currently supports strings/ints.
 
 A bloom filter is a compact way to test whether an element is a member of a set. The 
 filter uses m bits (16 in this implementation) per element to represent n elements by 
-hashing ni with k (optimal value (m / n) * ln(2)) different hash functions and 
+hashing n<sub>i</sub> with k (optimal value (m / n) * ln(2)) different hash functions 
+and 
 setting the bit at every respective hash value. To determine if an element is 
 present, the filter hashes the desired element with the k hash functions and tests 
 the bit at each hash value. If any of these are clear, the filter knows the element 
