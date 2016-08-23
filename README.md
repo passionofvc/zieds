@@ -41,9 +41,9 @@ System wide:
 ```
 
 ##Usage
-
-#include <bloom_filter.h>
 ```
+#include "bloom_filter.h"
+
 /* initialize */
 struct bloom_filter *bf;
 BLOOM_INIT(bf); /* default handles 100 element sets */
