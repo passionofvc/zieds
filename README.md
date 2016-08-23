@@ -32,13 +32,10 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 ##Installation
 ```
 git clone https://github.com/grifhughes/zieds
-
 ```
 
 ##Usage
 ```
-#include "bloom_filter.h"
-
 /* initialize */
 struct bloom_filter *bf;
 BLOOM_INIT(bf); /* default handles 100 element sets */
