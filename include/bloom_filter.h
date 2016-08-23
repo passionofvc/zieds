@@ -22,7 +22,24 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <math.h>
 
+#define BLOOM_INIT(bf)                                                  \
+        do {                                                            \
+                bf = malloc(sizeof(struct bloom_filter));               \
+                bf->nelems = 100;                                       \
+                bf->nhashes = (bf->mbits / bf->nelems) * log(2);        \
+                bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);       \
+                bf->buf = calloc(bf->nelems, sizeof(uint16_t));         \
+        } while(0)
+#define BLOOM_INIT_NELEMS(bf, nelems)                                   \
+        do {                                                            \
+                bf = malloc(sizeof(struct bloom_filter));               \
+                bf->nelems = nelems;                                    \
+                bf->nhashes = (bf->mbits / bf->nelems) * log(2);        \
+                bf->mbits = bf->nelems * (sizeof(uint16_t) << 3);       \
+                bf->buf = calloc(bf->nelems, sizeof(uint16_t));         \
+        } while(0)
 #define BLOOM_FREE(bf)          \
         do {                    \
                 free(bf->buf);  \
@@ -36,9 +53,6 @@ struct bloom_filter {
         uint32_t mbits; /* number of bits (16 * nelems) */
 };
 
-struct bloom_filter *bloom_init();
-struct bloom_filter *bloom_init_nelems(uint32_t nelems);
-struct bloom_filter *bloom_init_nhashes(uint32_t nelems, uint8_t nhashes);
 void bloom_insert_int(struct bloom_filter *bf, const int32_t data);
 void bloom_insert_string(struct bloom_filter *bf, const char *data);
 bool bloom_query_int(struct bloom_filter *bf, const int32_t data);
