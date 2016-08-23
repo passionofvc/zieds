@@ -36,6 +36,7 @@ void bloom_insert_int(struct bloom_filter *bf, const int32_t data)
         for(i = 0; i < bf->nhashes; ++i) 
                 SET_BIT(bf, G(hash, i, &data, sizeof(data), bf->mbits));
 }
+
 void bloom_insert_string(struct bloom_filter *bf, const char *data)
 {
         uint8_t i;
