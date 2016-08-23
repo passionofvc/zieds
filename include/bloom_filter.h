@@ -40,10 +40,10 @@
                 bf->nhashes = (bf->mbits / bf->nelems) * log(2);        \
                 bf->buf = calloc(bf->nelems, sizeof(uint16_t));         \
         } while(0)
-#define BLOOM_FREE(bf)          \
-        do {                    \
-                free(bf->buf);  \
-                free(bf);       \
+#define BLOOM_FREE(bf)                                                  \
+        do {                                                            \
+                free(bf->buf);                                          \
+                free(bf);                                               \
         } while(0)
 
 struct bloom_filter {
