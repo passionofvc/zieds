@@ -32,7 +32,9 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 
 ##Installation
 ```
-git clone https://github.com/grifhughes/zieds
+git clone https://github.com/grifhughes/zieds && \
+cd zieds && mkdir build && cd build && \
+cmake .. && make
 ```
 
 ##Usage
