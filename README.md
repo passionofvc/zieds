@@ -39,20 +39,26 @@ git clone https://github.com/grifhughes/zieds
 ```
 /* initialize */
 struct bloom_filter *bf;
-BLOOM_INIT(bf); /* default handles 100 element sets */
+BLOOM_INIT(bf);
 
-/* add some numbers */
-bloom_insert_int(bf, 4);
-bloom_insert_int(bf, 20);
-bloom_insert_int(bf, 500);
+/* add words to filter */
+char *data[] = { "one", "three", "five", "seven", "nine", "ten"};
+size_t len_data = sizeof(data) / sizeof(data[0]);
+for(size_t i = 0; i < len_data; ++i) {
+        bloom_add(bf, (void *)data[i], strlen(data[i]));
+}
 
-/* prints 1 0 1 */
-printf("%d %d %d\n", bloom_query_int(bf, 4), 
-        bloom_query_int(bf, 100),
-        bloom_query_int(bf, 500)); 
+/* test set of words */
+char *test[] = { "zero", "two", "four", "six", "eight", "ten"};
+size_t len_test = sizeof(test) / sizeof(test[0]);
+for(size_t i = 0; i < len_test; ++i) {
+        printf("%d\t", bloom_test(bf, (void *)test[i], strlen(test[i])));
+}
 
 /* free */
 BLOOM_FREE(bf);
+
+/* prints 0 0 0 0 0 1 */
 ```
 
 ##TODO
