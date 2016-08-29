@@ -6,7 +6,7 @@ int main(void)
 {
         /* initialize */
         struct bloom_filter *bf;
-        BLOOM_INIT(bf);
+        BLOOM_INIT(bf, 500);
 
         /* add words to filter */
         char *data[] = { "one", "three", "five", "seven", "nine", "ten"};

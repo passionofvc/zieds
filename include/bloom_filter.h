@@ -23,11 +23,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define BLOOM_INIT(bf)                                                  \
+#define BLOOM_INIT(bf, size)                                            \
         do {                                                            \
                 bf = malloc(sizeof(struct bloom_filter));               \
-                bf->nelems = 100;                                       \
-                bf->mbits = 1600;                                       \
+                bf->nelems = size;                                      \
+                bf->mbits = bf->nelems << 4;                            \
                 bf->nhashes = 11;                                       \
                 bf->buf = calloc(bf->nelems, 16);                       \
         } while(0)
