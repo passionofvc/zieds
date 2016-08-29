@@ -31,14 +31,6 @@
                 bf->nhashes = 11;                                       \
                 bf->buf = calloc(bf->nelems, 16);                       \
         } while(0)
-#define BLOOM_INIT_NELEMS(bf, nelems)                                   \
-        do {                                                            \
-                bf = malloc(sizeof(struct bloom_filter));               \
-                bf->nelems = nelems;                                    \
-                bf->mbits = bf->nelems << 4;                            \
-                bf->nhashes = 11;                                       \
-                bf->buf = calloc(bf->nelems, 16);                       \
-        } while(0)
 #define BLOOM_FREE(bf)                                                  \
         do {                                                            \
                 free(bf->buf);                                          \
