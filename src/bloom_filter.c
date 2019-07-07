@@ -38,7 +38,9 @@ void bloom_add(struct bloom_filter *bf, void *data, size_t len)
     H_a(data, len, hash);
     for(uint8_t i = 0; i < bf->nhashes; ++i) {
         uint32_t h = G(hash, i, data, len, bf->mbits); 
-        printf("h=[%d], h>>4=[%d], (h%16)=[%d], 1<< (h%16)=[%d]\n", h, h>>4, h%16, 1<< (h%16) );
+#ifdef DEBUG
+        printf("h=[%d],h>>4=[%d],h%%16=[%d],1<<h%%16=[%d]\n", h, h>>4, h%16, 1<<(h%16) );
+#endif
         SET_BIT(bf, h);
     }
 }
