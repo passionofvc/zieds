@@ -22,29 +22,37 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
-#define BLOOM_INIT(bf, size)                                            \
-        do {                                                            \
-                bf = malloc(sizeof(struct bloom_filter));               \
-                bf->nelems = size;                                      \
-                bf->mbits = bf->nelems << 4;                            \
-                bf->nhashes = 11;                                       \
-                bf->buf = calloc(bf->nelems, 16);                       \
-        } while(0)
-#define BLOOM_FREE(bf)                                                  \
-        do {                                                            \
-                free(bf->buf);                                          \
-                free(bf);                                               \
-        } while(0)
+// sizeof(uint16_t) = 2bytes
+//  2 << 3 = 2 * 2^3= 2*8=16
+// log(2) = 0.6
+// nhashes = (mbits/nelem)*ln(2)
+
+#define BLOOM_INIT(bf, size)                                    \
+    do {                                                        \
+        bf = malloc(sizeof(struct bloom_filter));               \
+        bf->nelems = size;                                      \
+        bf->mbits = bf->nelems * (2 << 3);                      \
+        bf->nhashes = 11;                                       \
+        bf->buf = calloc(bf->nelems, 16);                       \
+    } while(0)
+#define BLOOM_FREE(bf)                                          \
+    do {                                                        \
+        free(bf->buf);                                          \
+        free(bf);                                               \
+    } while(0)
 
 struct bloom_filter {
-        uint8_t nhashes; /* optimal for 16 bits per element*/
-        uint16_t *buf; /* 16 bits per element */ 
-        uint32_t nelems; /* number of elements */
-        uint32_t mbits; /* number of bits */
+    uint8_t  nhashes;  /* optimal for 16 bits per element*/  /* (mbits/nelem)*ln(2)で最適化 */
+    uint16_t *buf;     /* 16 bits per element */            /* 2bytes */ 
+    uint32_t nelems;   /* number of elements */
+    uint32_t mbits;    /* number of bits */
 };
 
-void bloom_add(struct bloom_filter *bf, void *data, size_t len);
-bool bloom_test(const struct bloom_filter *bf, void* data, size_t len);
+void bloom_insert_int(struct bloom_filter *bf, const int32_t data);
+void bloom_insert_string(struct bloom_filter *bf, const char *data);
+bool bloom_query_int(struct bloom_filter *bf, const int32_t data);
+bool bloom_qury_string(struct bloom_filter *bf, const char *data);
 
 #endif
